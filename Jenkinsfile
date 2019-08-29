@@ -27,8 +27,7 @@ pipeline {
                 message: 'Finished using the web site? (Click "Proceed" to continue)', 
                 parameters: [
                   string(name:'username', defaultValue: 'user', description: 'Username of the user pressing Ok')
-                ]
-              }
+                ]              
               echo "User: ${username} said Ok."
               sh './jenkins/scripts/kill.sh'
           }
