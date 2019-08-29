@@ -20,18 +20,26 @@ pipeline {
             }
         }
         stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-                input {
-                   message 'Finished using the web site??? (Click "Proceed" to continue)'
-                   submitter "Bob,Tom"
-                    parameters {
-                      string(name:'username', defaultValue: 'user', description: 'Username of the user pressing Ok')
-                    }
-                }
-                echo "User: ${username} said Ok."
-                sh './jenkins/scripts/kill.sh'
-            }
+          steps {
+              sh './jenkins/scripts/deliver.sh'
+              input {
+                  id: 'devdeployapproval',
+                  message: 'Finished using the web site??? (Click "Proceed" to continue)',
+                  submitter "Bob,Tom",
+                  parameters {
+                    string(name:'username', defaultValue: 'user', description: 'Username of the user pressing Ok')
+                  }
+              }
+              echo "User: ${username} said Ok."
+              sh './jenkins/scripts/kill.sh'
+          }
         }
+        // stage('Deliver') {
+        //     steps {
+        //         sh './jenkins/scripts/deliver.sh'
+        //         input message: 'Finished using the web site? (Click "Proceed" to continue)'
+        //         sh './jenkins/scripts/kill.sh'
+        //     }
+        // }
     }
 }
